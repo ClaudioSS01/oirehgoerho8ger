@@ -30,7 +30,8 @@ scanner.addListener('scan', function (content) {
     btrocarcamera.style.display = 'none';
 });
 
-async function startScanner(numerocamera="0") {
+async function startScanner() {
+
     btrocarcamera.style.display = 'block';
     const devices = await Instascan.Camera.getCameras();
     
@@ -51,14 +52,15 @@ async function trocarcamera(){
     let totalDeCameras = devices.length;
     if(numerocamera < totalDeCameras){
         numerocamera = numerocamera + 1;
-    }else{
+    }
+    if(numerocamera > totalDeCameras){
         numerocamera = 0;
     }
     // Salve o valor de numerocamera no localStorage
     localStorage.setItem("numeroCamera", numerocamera);
 
     // Inicialize a câmera
-    startScanner(numerocamera);
+    startScanner();
 }
 ///salva
 
