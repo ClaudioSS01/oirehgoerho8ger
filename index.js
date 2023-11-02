@@ -1,5 +1,5 @@
 //escanea
-var conteudoDoQrCode;
+var conteudoDoQrCode = "";
 const qrcodeScanner = document.getElementById('qrcode-scanner');
 const qrcodeVideo = document.getElementById('qrcode-video');
 const qrcodeResult = document.getElementById('qrcode-result');
@@ -13,9 +13,9 @@ const scanner = new Instascan.Scanner({ video: qrcodeVideo });
 scanner.addListener('scan', function (content) {
     //QUANDO ESCANEAR ALGO
     qrcodeResult.textContent = `QR Code Escaneado: ${content}`;
-    conteudoDoQrCode = content;
-    console.log('lido:')
-    console.log(qrcodeResult.textContent)
+    conteudoDoQrCode = (content).toString();
+    console.log(`lido: ${conteudoDoQrCode}`)
+
     qrcodeScanner.style.display = 'none';
     qrcodeScanner.style.display = 'none';
     atendimento.style.display = 'block';
@@ -56,7 +56,8 @@ function goToHomePage() {
 ///salva
 
 function saveAtendimento(buttonName) {
-    if(conteudoDoQrCode != "" && conteudoDoQrCode != null){
+    console.log(`conteudo que vamos salvar: ${conteudoDoQrCode}`)
+    if(conteudoDoQrCode != "" && conteudoDoQrCode != null && conteudoDoQrCode != undefined){
 
         const qrCode = decodeURIComponent(conteudoDoQrCode);
         alert(`Conteúdo do QR Code: ${conteudoDoQrCode}\nBotão pressionado: ${buttonName}`);
