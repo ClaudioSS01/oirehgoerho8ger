@@ -1,5 +1,6 @@
 //escanea
 var conteudoDoQrCode = "";
+var numerocamera = 0;
 const qrcodeScanner = document.getElementById('qrcode-scanner');
 const qrcodeVideo = document.getElementById('qrcode-video');
 const qrcodeResult = document.getElementById('qrcode-result');
@@ -7,6 +8,7 @@ const exame = document.getElementById('exame');
 const retorno = document.getElementById('retorno');
 const atendimento = document.getElementById('atendimento');
 const atender = document.getElementById('atender');
+const btrocarcamera = document.getElementById('trocarcamera');
 const scanner = new Instascan.Scanner({ video: qrcodeVideo });
 
 
@@ -15,16 +17,15 @@ scanner.addListener('scan', function (content) {
     qrcodeResult.textContent = `QR Code Escaneado: ${content}`;
     conteudoDoQrCode = (content).toString();
     console.log(`lido: ${conteudoDoQrCode}`)
-
-    qrcodeScanner.style.display = 'none';
-    qrcodeScanner.style.display = 'none';
     atendimento.style.display = 'block';
     retorno.style.display = 'block';
     exame.style.display = 'block';
     qrcodeScanner.style.display = 'none';
+    btrocarcamera.style.display = 'none';
 });
 
-async function startScanner() {
+async function startScanner(numerocamera="0") {
+    btrocarcamera.style.display = 'block';
     const devices = await Instascan.Camera.getCameras();
 
     if (devices.length === 0) {
@@ -32,27 +33,24 @@ async function startScanner() {
         return;
     }
 
-    const selectedDevice = devices[0]; // Seleciona a primeira câmera encontrada
+    const selectedDevice = devices[numerocamera]; // Seleciona a primeira câmera encontrada
     scanner.start(selectedDevice);
     qrcodeScanner.style.display = 'block';
     atender.style.display = 'none';
 }
 
+async function trocarcamera(){
+    let devices = await Instascan.Camera.getCameras();
+    let totalDeCameras= devices.length;
+    if(numerocamera < totalDeCameras){
+        numerocamera = numerocamera + 1;
+        startScanner(numerocamera)
+    }else{
+        numerocamera = 0;
+        startScanner(numerocamera)
+    }
 
-
-function saveQRCode() {
-    const qrCodeText = qrcodeResult.textContent.replace('QR Code Escaneado: ', '');
-    window.location.href = `/salvar?qrCode=${encodeURIComponent(qrCodeText)}`;
 }
-
-
-
-
-function goToHomePage() {
-    window.location.href = "/";
-}
-
-
 ///salva
 
 function saveAtendimento(buttonName) {
