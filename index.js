@@ -1,5 +1,5 @@
 //escanea
-
+var conteudoDoQrCode;
 const qrcodeScanner = document.getElementById('qrcode-scanner');
 const qrcodeVideo = document.getElementById('qrcode-video');
 const qrcodeResult = document.getElementById('qrcode-result');
@@ -13,6 +13,7 @@ const scanner = new Instascan.Scanner({ video: qrcodeVideo });
 scanner.addListener('scan', function (content) {
     //QUANDO ESCANEAR ALGO
     qrcodeResult.textContent = `QR Code Escaneado: ${content}`;
+    conteudoDoQrCode = content;
     console.log('lido:')
     console.log(qrcodeResult.textContent)
     qrcodeScanner.style.display = 'none';
@@ -55,40 +56,45 @@ function goToHomePage() {
 ///salva
 
 function saveAtendimento(buttonName) {
-    const qrCode = decodeURIComponent(getParameterByName('qrCode'));
-    alert(`Conteúdo do QR Code: ${qrCode}\nBotão pressionado: ${buttonName}`);
-    
-    // Verifica se há conexão com a internet
-    if (navigator.onLine) {
-        salvarDadosNoFirebase(qrCode, buttonName);
-    } else {
-        // Armazena os dados localmente no IndexedDB para envio posterior
-        const dadosLocal = {
-            qrCode: qrCode,
-            buttonName: buttonName
-        };
+    if(conteudoDoQrCode != "" && conteudoDoQrCode != null){
+
+        const qrCode = decodeURIComponent(conteudoDoQrCode);
+        alert(`Conteúdo do QR Code: ${conteudoDoQrCode}\nBotão pressionado: ${buttonName}`);
         
-        // Abre ou cria um banco de dados no IndexedDB
-        const request = indexedDB.open('meuBancoDeDados', 1);
-
-        request.onsuccess = function(event) {
-            const db = event.target.result;
-            
-            // Cria uma transação para escrever os dados
-            const transaction = db.transaction('dadosPendentes', 'readwrite');
-            const objectStore = transaction.objectStore('dadosPendentes');
-
-            // Adiciona os dados ao IndexedDB
-            const addRequest = objectStore.add(dadosLocal);
-            
-            addRequest.onsuccess = function(event) {
-                alert('Os dados foram armazenados localmente e serão enviados quando a conexão estiver disponível.');
+        // Verifica se há conexão com a internet
+        if (navigator.onLine) {
+            salvarDadosNoFirebase(qrCode, buttonName);
+        } else {
+            // Armazena os dados localmente no IndexedDB para envio posterior
+            const dadosLocal = {
+                qrCode: qrCode,
+                buttonName: buttonName
             };
-        };
-        
-        request.onerror = function(event) {
-            console.error('Erro ao abrir o banco de dados:', event.target.error);
-        };
+            
+            // Abre ou cria um banco de dados no IndexedDB
+            const request = indexedDB.open('meuBancoDeDados', 1);
+    
+            request.onsuccess = function(event) {
+                const db = event.target.result;
+                
+                // Cria uma transação para escrever os dados
+                const transaction = db.transaction('dadosPendentes', 'readwrite');
+                const objectStore = transaction.objectStore('dadosPendentes');
+    
+                // Adiciona os dados ao IndexedDB
+                const addRequest = objectStore.add(dadosLocal);
+                
+                addRequest.onsuccess = function(event) {
+                    alert('Os dados foram armazenados localmente e serão enviados quando a conexão estiver disponível.');
+                };
+            };
+            
+            request.onerror = function(event) {
+                console.error('Erro ao abrir o banco de dados:', event.target.error);
+            };
+        }
+    }else{
+        alert(`conteudoDoQrCode == '${conteudoDoQrCode}'`)
     }
 }
 
