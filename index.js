@@ -1,6 +1,12 @@
+var valorDeCameraSalvo = localStorage.getItem("numeroCamera");
+if(valorDeCameraSalvo != true){
+localStorage.setItem("numeroCamera", 0);
+valorDeCameraSalvo = localStorage.getItem("numeroCamera");
+}
+
 //escanea
 var conteudoDoQrCode = "";
-var numerocamera = 0;
+var numerocamera = parseInt(valorDeCameraSalvo);
 const qrcodeScanner = document.getElementById('qrcode-scanner');
 const qrcodeVideo = document.getElementById('qrcode-video');
 const qrcodeResult = document.getElementById('qrcode-result');
@@ -44,9 +50,11 @@ async function trocarcamera(){
     let totalDeCameras= devices.length;
     if(numerocamera < totalDeCameras){
         numerocamera = numerocamera + 1;
+        localStorage.setItem("numeroCamera", numerocamera);
         startScanner(numerocamera)
     }else{
         numerocamera = 0;
+        localStorage.setItem("numeroCamera", numerocamera);
         startScanner(numerocamera)
     }
 
