@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contador de Atendimentos</title>
+   <link rel="stylesheet" href="index.css">
+  
+</head>
+<body>
+    <button onclick="startScanner()" id="atender" class="atender">Atender</button>
+
+    <button onclick="saveAtendimento('1° Atendimento')" id="atendimento" class="atendimento1">1° Atendimento</button>
+    <button onclick="saveAtendimento('Retorno')" id="retorno" class="retorno">Retorno</button>
+    <button onclick="saveAtendimento('Resultado de Exame')" id="exame" class="exame">Resultado de Exame</button>
+    
+    <div id="qrcode-scanner" class="qrcode-scanner">
+        <video id="qrcode-video"></video>
+    </div>
+
+
+
+    <div id="qrcode-result"></div>
+
+
+    <script src="instacan.js"></script>
+    <script src="index.js"></script>
+
+</body>
+</html>

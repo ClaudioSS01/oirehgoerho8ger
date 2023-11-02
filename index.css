@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+.atender {
+    width: 50%;
+    padding: 10px;
+    font-size: 24px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: block;
+}
+
+.atendimento1 {
+    position: absolute;
+    top: 20%;
+    width: 50%;
+    padding: 10px;
+    font-size: 24px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: none;
+}
+
+.retorno {
+    position: absolute;
+    top: 30%;
+    width: 50%;
+    padding: 10px;
+    font-size: 24px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: none;
+}
+
+.exame {
+    position: absolute;
+    top: 40%;
+    width: 50%;
+    padding: 10px;
+    font-size: 24px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: none;
+}
+#qrcode-scanner {
+    display: none;
+}
+#qrcode-result {
+    display: none;
+    margin-top: 20px;
+}
