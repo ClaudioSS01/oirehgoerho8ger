@@ -31,6 +31,7 @@ scanner.addListener('scan', function (content) {
 });
 
 async function startScanner() {
+    numerocamera = parseInt(localStorage.getItem("numeroCamera")) || 0;
 
     btrocarcamera.style.display = 'block';
     const devices = await Instascan.Camera.getCameras();
