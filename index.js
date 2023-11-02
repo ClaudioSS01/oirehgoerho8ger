@@ -1,5 +1,5 @@
 var valorDeCameraSalvo = localStorage.getItem("numeroCamera");
-if(valorDeCameraSalvo != true){
+if(valorDeCameraSalvo != null){
 localStorage.setItem("numeroCamera", 0);
 valorDeCameraSalvo = localStorage.getItem("numeroCamera");
 }
@@ -33,6 +33,7 @@ scanner.addListener('scan', function (content) {
 async function startScanner(numerocamera="0") {
     btrocarcamera.style.display = 'block';
     const devices = await Instascan.Camera.getCameras();
+    
 
     if (devices.length === 0) {
         alert('Nenhuma câmera encontrada.');
@@ -47,17 +48,17 @@ async function startScanner(numerocamera="0") {
 
 async function trocarcamera(){
     let devices = await Instascan.Camera.getCameras();
-    let totalDeCameras= devices.length;
+    let totalDeCameras = devices.length;
     if(numerocamera < totalDeCameras){
         numerocamera = numerocamera + 1;
-        localStorage.setItem("numeroCamera", numerocamera);
-        startScanner(numerocamera)
     }else{
         numerocamera = 0;
-        localStorage.setItem("numeroCamera", numerocamera);
-        startScanner(numerocamera)
     }
+    // Salve o valor de numerocamera no localStorage
+    localStorage.setItem("numeroCamera", numerocamera);
 
+    // Inicialize a câmera
+    startScanner(numerocamera);
 }
 ///salva
 
